@@ -1,6 +1,8 @@
 package com.example.user.brad22;
 
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SensorManager smgr;
+    private Sensor sensor;
+    private MySensorListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,22 @@ public class MainActivity extends AppCompatActivity {
             Log.v("brad", sensor.getName() + ":" + sensor.getType() + ":" +sensor.getVendor());
         }
 
+        sensor = smgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        listener = new MySensorListener();
 
 
     }
+
+    private class MySensorListener implements SensorEventListener {
+
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {}
+    }
+
+
 }
