@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         private boolean isInit;
         private int viewW, viewH;
         private Paint paintH, paintV, paintBall;
-        private float ballX, ballY,ballR;
+        private float ballX, ballY,ballR, ox, oy;
+
 
         public MyView(Context context) {
             super(context);
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             paintH = new Paint(); paintH.setColor(Color.RED);
             paintV = new Paint(); paintV.setColor(Color.BLUE);
             paintBall = new Paint(); paintBall.setColor(Color.YELLOW);
-            ballX = viewW/2f; ballY = viewH/2f; ballR = 50;
+            ox = viewW/2f; oy = viewH/2f; ballR = 80;
         }
 
 
@@ -71,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawLine(0,viewH/2f,viewW,viewH/2f,paintH);
             canvas.drawLine(viewW/2f,0,viewW/2f,viewH,paintV);
         }
+
+        void setXY(float sx, float sy){
+            ballX = ox + ((sx/9.8f)*(viewW/2));
+            ballY = oy + ((sy/9.8f)*(viewH/2));
+            invalidate();
+        }
+
     }
 
     private class MySensorListener implements SensorEventListener {
@@ -78,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values = sensorEvent.values;
+            myView.setXY(values[0],values[1]);
         }
 
         @Override
